@@ -37,10 +37,24 @@ menu_text = {
 	pygame.Rect(297, 367, 100, 40)],
 
 }
+
+
+def menu(fonts, colors, menu_text):
+	for key in menu_text:
+		collide = menu_text[key][1].collidepoint(mouse)
+		color = colors["h_green"] if collide else colors["none"]
+		pygame.draw.rect(window, color, menu_text[key][1])
+
+	# Menu
+	window.blit(title_text, (150, 70))
+	
+	window.blit(menu_text["start"][0], (300, 290))
+	window.blit(menu_text["option"][0], (300, 330))
+	window.blit(menu_text["credits"][0], (300, 370))
+
 # ==================================================================
 
-
-
+ 
 
 HEIGHT, WIDTH = 450, 700 
 window = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -48,16 +62,16 @@ pygame.display.set_caption("Hell/0?")
 
 
 # INITIATE GAME
-game_over = False
+start = False 
 while True:
 
 	mouse = pygame.mouse.get_pos()
 	window.fill(colors["none"])
 
-	# Ingame
-	if not game_over:
-		pass
-	
+	if start != True:
+		menu(fonts, colors, menu_text)
+
+
 	for event in pygame.event.get():
 		# Quit Game 
 		if event.type == pygame.QUIT:
@@ -66,26 +80,15 @@ while True:
 		if event.type == pygame.MOUSEBUTTONUP:
 			for key in menu_text:
 				if menu_text[key][1].collidepoint(mouse):
-					print(key)
+					if key == "start":
+						start = True
+						print("start")
 					break
       			
 		if event.type == pygame.KEYDOWN:
 			
 			pass
 
-
 	
-	for key in menu_text:
-		collide = menu_text[key][1].collidepoint(mouse)
-		color = colors["h_green"] if collide else colors["none"]
-
-		pygame.draw.rect(window, color, menu_text[key][1])
-	
-	# Menu
-	window.blit(title_text, (150, 70))
-	
-	window.blit(menu_text["start"][0], (300, 290))
-	window.blit(menu_text["option"][0], (300, 330))
-	window.blit(menu_text["credits"][0], (300, 370))
 	
 	pygame.display.update()
