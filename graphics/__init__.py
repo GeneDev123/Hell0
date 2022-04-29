@@ -1,1 +1,1 @@
-print("asdhasdjhak")
+from .menu import Menu
