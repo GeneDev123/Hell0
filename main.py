@@ -1,10 +1,10 @@
 # Making a horror story based game
-
 # Imports 
 import pygame 
 import sys
 import random 
-from graphics import Menu
+from mechanics import Menu
+from mechanics import Player
 # INITIALIZE PYGAME
 pygame.init()
 
@@ -26,41 +26,50 @@ while True:
 	mouse = pygame.mouse.get_pos()
 	window.fill(colors["none"])
 
+
 	# Games States
 	if game_state == [1,0,0,0,0]:
-		menu = Menu()
-		menu.render_menu(mouse, window)
+		if 'menu' in locals():
+			menu.render_menu(mouse, window)
+		else:
+			menu = Menu()
+	else: 
+		if 'menu' in locals():
+			del menu
+	# ======================================
+	if game_state == [0,1,0,0,0]:
+		if 'player' in locals():
+			player.render(window)
+		else:
+			player = Player("Eugene", [50,200])
+			print(player.name)
+	else: 
+		if 'player' in locals():
+			del player
+
+
 	#======================================================== 
 	# EVENTS
+	# Player Movement
+	if game_state == [0,1,0,0,0]:
+		player.move(event)
+		# Pause Input
+		
+	
 	for event in pygame.event.get():
 		# Quit Game 
 		if event.type == pygame.QUIT:
 			sys.exit()
 		
+		if game_state == [0,1,0,0,0] and event.type == pygame.KEYDOWN and event.key == pygame.K_p:
+			print("pause")
+			game_state = [0,0,1,0,0]
+
 		# Mouse Clicks 
-		if event.type == pygame.MOUSEBUTTONUP:
+		if event.type == pygame.MOUSEBUTTONUP:		
+			# Menu inputs
+			if game_state == [1,0,0,0,0]:
+				game_state = menu.menu_inputs(game_state, mouse)
 
-			game_state = menu.menu_inputs(game_state, mouse)
-      		 		
-
-		# Keyboard Inputs 
-		if event.type == pygame.KEYDOWN:
 			
-			# Chracter Movements inputs 
-			if game_state == [0,1,0,0,0]:
-				if event.key == pygame.K_UP or event.key == pygame.K_w:
-					print("up")
-				elif event.key == pygame.K_DOWN or event.key == pygame.K_s:
-					print("down")
-				elif event.key == pygame.K_LEFT or event.key == pygame.K_a:
-					print("left")
-				elif event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-					print("right")
-				# Pause input  
-
-				elif event.key == pygame.K_p:
-					print("pause")
-					game_state = [0,0,1,0,0]
-	
-	
 	pygame.display.update()

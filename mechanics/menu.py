@@ -11,7 +11,7 @@ class Menu:
 		}
 		# ===========================================================
 		self.fonts = {
-		"title": pygame.font.Font("graphics/fonts/Ghastly_Panic.ttf", 200),
+		"title": pygame.font.Font("mechanics/fonts/Ghastly_Panic.ttf", 200),
 		"menu": pygame.font.SysFont("Arial", 30)
 		}
 		# ===========================================================
